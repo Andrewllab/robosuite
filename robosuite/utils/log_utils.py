@@ -68,7 +68,10 @@ class DefaultLogger:
         logger = logging.getLogger(self.logger_name)
 
         if file_logging_level is not None:
-            fh = logging.FileHandler("/tmp/robosuite.log")
+            
+            tmp = os.getenv("TMPDIR", "/tmp")  # Fallback to /tmp if TMPDIR is not set
+            log_file = os.path.join(tmp, "robosuite.log")
+            fh = logging.FileHandler(log_file)
             fh.setLevel(logging.getLevelName(file_logging_level))
             file_formatter = FileFormatter()
             fh.setFormatter(file_formatter)
